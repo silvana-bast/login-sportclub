@@ -1,0 +1,322 @@
+/* RESET GENERAL */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CUERPO */
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f1ff;
+}
+
+/* HEADER */
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+header img{
+    width: 220px;
+}
+
+/* MENÚ */
+
+nav{
+    display: flex;
+    gap: 25px;
+}
+
+nav a{
+    text-decoration: none;
+    color: #2E1A47;
+    font-weight: bold;
+}
+
+nav a:hover{
+    color: #F2B705;
+}
+
+/* HERO */
+
+#hero{
+    height: 80vh;
+
+    background-image: url("../img/hero/hero.jpg");
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    color: white;
+
+    position: relative;
+}
+
+#hero::before{
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0,0,0,0.5);
+}
+
+#hero h1,
+#hero p,
+#hero a{
+    position: relative;
+    z-index: 1;
+}
+
+#hero h1{
+    color: white;
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+#hero p{
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+#hero a{
+    background-color: #F2B705;
+    color: #2E1A47;
+
+    text-decoration: none;
+
+    padding: 15px 35px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    position: relative;
+    z-index: 1;
+}
+
+#hero a:hover{
+    background-color: #F2B705;
+    color: #2E1A47;
+}
+
+/* BENEFICIOS */
+
+#beneficios{
+    padding: 80px 50px;
+}
+
+#beneficios h2{
+    text-align: center;
+    color: #2E1A47;
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.beneficios-container{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.beneficio-card{
+
+    background-color: white;
+
+    width: 300px;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+
+    border-top: 5px solid #F2B705;
+}
+
+.beneficio-card h3{
+    color: #2E1A47;
+    margin-bottom: 15px;
+}
+
+.beneficio-card p{
+    color: #555;
+    line-height: 1.5;
+}
+
+.beneficio-card:hover{
+    transform: translateY(-8px);
+    transition: 0.3s;
+}
+
+/* PLANES */
+
+#planes{
+    padding: 80px 50px;
+}
+
+#planes h2{
+    text-align: center;
+    color: #2E1A47;
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.planes-container{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.plan-card{
+
+    background-color: white;
+
+    width: 320px;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+
+    text-align: center;
+
+    border-top: 5px solid #2E1A47;
+}
+
+.plan-card h3{
+    color: #2E1A47;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.plan-card p{
+    font-size: 24px;
+    font-weight: bold;
+    color: #F2B705;
+    margin-bottom: 20px;
+}
+
+.plan-card ul{
+    list-style: none;
+}
+
+.plan-card li{
+    margin-bottom: 10px;
+}
+
+.plan-card:hover{
+    transform: translateY(-8px);
+    transition: 0.3s;
+}
+
+/* SOBRE SPORTCLUB */
+
+#sobre-club{
+    padding: 80px 50px;
+}
+
+#sobre-club h2{
+    text-align: center;
+    color: #2E1A47;
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.sobre-container{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.sobre-card{
+    background-color: white;
+    width: 300px;
+    min-height: 280px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    border-top: 5px solid #F2B705;
+}
+
+.sobre-card h3{
+    color: #2E1A47;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sobre-card p{
+    color: #555;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+.sobre-card:hover{
+    transform: translateY(-8px);
+    transition: 0.3s;
+}
+
+/* FOOTER */
+
+footer{
+    background-color: #2E1A47;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    margin-top: 80px;
+}
+
+footer h3{
+    color: #F2B705;
+
+    margin-bottom: 15px;
+
+    font-size: 28px;
+}
+
+footer p{
+    margin-bottom: 10px;
+
+    font-size: 18px;
+}
+
+footer a{
+    color: white;
+
+    text-decoration: none;
+
+    margin: 0 10px;
+
+    font-weight: bold;
+}
+
+footer a:hover{
+    color: #F2B705;
+}
