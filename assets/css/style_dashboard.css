@@ -213,3 +213,11 @@ main p{
 .usuario-card h2{
     color: #2196F3;
 }
+
+.admin-card{
+    border-top: 5px solid #f44336;
+}
+
+.admin-card h2{
+    color: #f44336;
+}
