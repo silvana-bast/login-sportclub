@@ -206,3 +206,10 @@ main p{
 
     font-weight: bold;
 }
+.usuario-card{
+    border-top: 5px solid #2196F3;
+}
+
+.usuario-card h2{
+    color: #2196F3;
+}
