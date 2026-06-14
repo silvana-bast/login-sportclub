@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba API</title>
+</head>
+
+<body>
+
+    <h1>Prueba de conexión con Backend</h1>
+
+    <button onclick="probarAPI()">
+        Probar API
+    </button>
+
+    <pre id="resultado"></pre>
+
+    <script>
+
+        async function probarAPI() {
+
+            try {
+
+                const respuesta = await fetch(
+                    "https://frontend-backend-clubdeportivo.onrender.com/api/users"
+                );
+
+                const datos = await respuesta.json();
+
+                document.getElementById("resultado").textContent =
+                    JSON.stringify(datos, null, 2);
+
+            }
+
+            catch(error) {
+
+                console.log(error);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

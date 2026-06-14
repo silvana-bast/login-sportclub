@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Registro SportClub</title>
-
     <link rel="stylesheet" href="../assets/css/style_registro.css">
-
 </head>
-
 <body>
 
 <main class="contenedor">
@@ -20,179 +13,243 @@
     <section class="login-card">
 
         <header class="logo">
-
-            <img 
-                src="../assets/img/logo.png" 
-                alt="Logo SportClub"
-            >
-
+            <img src="../assets/img/logo.png" alt="Logo SportClub">
         </header>
 
-            <h1>Registro</h1>
+        <h1>Registro</h1>
 
-            <form>
+        <form id="registroForm" novalidate>
 
-                <!-- Nombre -->
-                <div class="grupo-input">
+            <!-- Nombre -->
+            <div class="grupo-input">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+                <span class="error-msg" id="err-nombre"></span>
+            </div>
 
-                    <label for="nombre">
-                        Nombre Completo
-                    </label>
+            <!-- Fecha de nacimiento -->
+            <div class="grupo-input">
+                <label for="fecha">Fecha de Nacimiento</label>
+                <input type="date" id="fecha">
+                <span class="error-msg" id="err-fecha"></span>
+            </div>
 
-                    <input 
-                        type="text"
-                        id="nombre"
-                        placeholder="Ingresa tu nombre"
-                    >
+            <!-- Correo -->
+            <div class="grupo-input">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" placeholder="Ingresa tu correo">
+                <span class="error-msg" id="err-correo"></span>
+            </div>
 
-                </div>
+            <!-- Contraseña -->
+            <div class="grupo-input">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="Mínimo 8 caracteres">
+                <span class="error-msg" id="err-password"></span>
+            </div>
 
-                <!-- Fecha de nacimiento -->
-                <div class="grupo-input">
+            <!-- Confirmar contraseña -->
+            <div class="grupo-input">
+                <label for="confirmar">Confirmar Contraseña</label>
+                <input type="password" id="confirmar" placeholder="Repite tu contraseña">
+                <span class="error-msg" id="err-confirmar"></span>
+            </div>
 
-                    <label for="fecha">
-                        Fecha de Nacimiento
-                    </label>
+            <!-- Actividades -->
+            <div class="grupo-input">
+                <label for="actividad">Actividades de Interés</label>
+                <select id="actividad">
+                    <option value="">Selecciona una actividad</option>
+                    <option value="gimnasio">Gimnasio</option>
+                    <option value="running">Running</option>
+                    <option value="yoga">Yoga</option>
+                    <option value="crossfit">Crossfit</option>
+                    <option value="natacion">Natación</option>
+                    <option value="ciclismo">Ciclismo</option>
+                </select>
+                <span class="error-msg" id="err-actividad"></span>
+            </div>
 
-                    <input 
-                        type="date"
-                        id="fecha"
-                    >
+            <!-- Objetivo -->
+            <div class="grupo-input">
+                <label for="objetivo">Objetivo</label>
+                <select id="objetivo">
+                    <option value="">Selecciona tu objetivo</option>
+                    <option value="bajar_peso">Bajar de peso</option>
+                    <option value="mantenerse">Mantenerse activo</option>
+                    <option value="masa_muscular">Ganar masa muscular</option>
+                    <option value="condicion">Mejorar condición física</option>
+                    <option value="salud">Mejorar salud</option>
+                </select>
+                <span class="error-msg" id="err-objetivo"></span>
+            </div>
 
-                </div>
+            <!-- Mensaje general -->
+            <div id="mensajeGeneral"></div>
 
-                <!-- Correo -->
-                <div class="grupo-input">
+            <!-- Botón -->
+            <button type="submit" id="btnRegistro">Registrarse</button>
 
-                    <label for="correo">
-                        Correo Electrónico
-                    </label>
+        </form>
 
-                    <input 
-                        type="email"
-                        id="correo"
-                        placeholder="Ingresa tu correo"
-                    >
+        <nav class="links">
+            <a href="./login.html">¿Ya tienes una cuenta?</a>
+        </nav>
 
-                </div>
+    </section>
 
-                <!-- Contraseña -->
-                <div class="grupo-input">
+</main>
 
-                    <label for="password">
-                        Contraseña
-                    </label>
+<script>
 
-                    <input 
-                        type="password"
-                        id="password"
-                        placeholder="Ingresa tu contraseña"
-                    >
+const formulario = document.getElementById("registroForm");
 
-                </div>
+formulario.addEventListener("submit", async function(event) {
 
-                <!-- Actividades -->
-                <div class="grupo-input">
+    event.preventDefault();
+    limpiarErrores();
 
-                    <label for="actividad">
-                        Actividades de Interés
-                    </label>
+    // ── Obtener valores ────────────────────────────────────
+    const nombre    = document.getElementById("nombre").value.trim();
+    const fecha     = document.getElementById("fecha").value;
+    const correo    = document.getElementById("correo").value.trim();
+    const password  = document.getElementById("password").value;
+    const confirmar = document.getElementById("confirmar").value;
+    const actividad = document.getElementById("actividad").value;
+    const objetivo  = document.getElementById("objetivo").value;
+    const mensaje   = document.getElementById("mensajeGeneral");
+    const btn       = document.getElementById("btnRegistro");
 
-                    <select id="actividad">
+    // ── Validaciones ───────────────────────────────────────
+    let valido = true;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                        <option>
-                            Selecciona una actividad
-                        </option>
+    if (!nombre) {
+        mostrarError("nombre", "err-nombre", "El nombre es obligatorio");
+        valido = false;
+    }
 
-                        <option>
-                            Gimnasio
-                        </option>
+    if (!fecha) {
+        mostrarError("fecha", "err-fecha", "La fecha de nacimiento es obligatoria");
+        valido = false;
+    }
 
-                        <option>
-                            Running
-                        </option>
+    if (!correo) {
+        mostrarError("correo", "err-correo", "El correo es obligatorio");
+        valido = false;
+    } else if (!emailRegex.test(correo)) {
+        mostrarError("correo", "err-correo", "Formato de correo inválido");
+        valido = false;
+    }
 
-                        <option>
-                            Yoga
-                        </option>
+    if (!password) {
+        mostrarError("password", "err-password", "La contraseña es obligatoria");
+        valido = false;
+    } else if (password.length < 8) {
+        mostrarError("password", "err-password", "Contraseña mínima 8 caracteres");
+        valido = false;
+    }
 
-                        <option>
-                            Crossfit
-                        </option>
+    if (!confirmar) {
+        mostrarError("confirmar", "err-confirmar", "Debes confirmar tu contraseña");
+        valido = false;
+    } else if (password !== confirmar) {
+        mostrarError("confirmar", "err-confirmar", "Las contraseñas no coinciden");
+        valido = false;
+    }
 
-                        <option>
-                            Natación
-                        </option>
+    if (!actividad) {
+        mostrarError("actividad", "err-actividad", "Selecciona una actividad");
+        valido = false;
+    }
 
-                        <option>
-                            Ciclismo
-                        </option>
+    if (!objetivo) {
+        mostrarError("objetivo", "err-objetivo", "Selecciona un objetivo");
+        valido = false;
+    }
 
-                    </select>
+    if (!valido) return;
 
-                </div>
+    // ── Llamada a la API ───────────────────────────────────
+    btn.textContent = "Registrando...";
+    btn.disabled = true;
 
-                <!-- Objetivo -->
-                <div class="grupo-input">
+    const body = {
+        full_name:  nombre,
+        email:      correo,
+        password:   password,
+        birth_date: fecha,
+        metadata: {
+            sports: [
+                { name: actividad, frequency_per_week: 1 }
+            ],
+            objetivo: objetivo
+        }
+    };
 
-                    <label for="objetivo">
-                        Objetivo
-                    </label>
+    try {
 
-                    <select id="objetivo">
+        const respuesta = await fetch("https://frontend-backend-clubdeportivo.onrender.com/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
 
-                        <option>
-                            Selecciona tu objetivo
-                        </option>
+        const resultado = await respuesta.json();
+        console.log(resultado);
 
-                        <option>
-                            Bajar de peso
-                        </option>
+        if (respuesta.ok) {
 
-                        <option>
-                            Mantenerse activo
-                        </option>
+            mensaje.style.color = "#27ae60";
+            mensaje.textContent = "✅ Cuenta creada correctamente. Redirigiendo al login...";
 
-                        <option>
-                            Ganar masa muscular
-                        </option>
+            setTimeout(() => {
+                window.location.href = "./login.html";
+            }, 1500);
 
-                        <option>
-                            Mejorar condición física
-                        </option>
+        } else {
 
-                        <option>
-                            Mejorar salud
-                        </option>
+            mensaje.style.color = "#e74c3c";
+            mensaje.textContent = resultado.message || "Error al registrar usuario";
 
-                    </select>
+            btn.textContent = "Registrarse";
+            btn.disabled = false;
+        }
 
-                </div>
+    } catch (error) {
 
-                <!-- Botón -->
-                <button type="submit">
+        console.error(error);
+        mensaje.style.color = "#e74c3c";
+        mensaje.textContent = "❌ Error de conexión con el servidor";
 
-                    Registrarse
+        btn.textContent = "Registrarse";
+        btn.disabled = false;
+    }
 
-                </button>
+});
 
-            </form>
+// ── Helpers ────────────────────────────────────────────────
 
-            <!-- Link -->
-            <nav class="links">
+function mostrarError(inputId, errorId, texto) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (input) input.style.borderColor = "#e74c3c";
+    if (error) error.textContent = texto;
+}
 
-                <a href="./login.html">
+function limpiarErrores() {
+    ["nombre", "fecha", "correo", "password", "confirmar", "actividad", "objetivo"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.borderColor = "";
+    });
+    ["err-nombre", "err-fecha", "err-correo", "err-password", "err-confirmar", "err-actividad", "err-objetivo"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = "";
+    });
+    const msg = document.getElementById("mensajeGeneral");
+    if (msg) msg.textContent = "";
+}
 
-                    ¿Ya tienes una cuenta?
-
-                </a>
-
-            </nav>
-
-        </section>
-
-    </main>
-
+</script>
 </body>
 </html>
-

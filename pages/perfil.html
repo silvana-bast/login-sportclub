@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - SportClub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 220px;
+            min-height: 100vh;
+            background: #1a1f2e;
+            position: fixed;
+            top: 0; left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+        .sidebar-brand {
+            padding: 20px 20px 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 1px solid #2d3447;
+        }
+        .sidebar-brand span { color: #4f8ef7; }
+        .sidebar-user {
+            padding: 16px 20px;
+            border-bottom: 1px solid #2d3447;
+        }
+        .sidebar-user .user-name {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .sidebar-user .user-role {
+            color: #8896b3;
+            font-size: 0.75rem;
+        }
+        .sidebar-nav { flex: 1; padding: 12px 0; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: #8896b3;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .sidebar-nav a:hover { background: #2d3447; color: #fff; }
+        .sidebar-nav a.active {
+            background: #2d3447;
+            color: #4f8ef7;
+            border-left: 3px solid #4f8ef7;
+        }
+        .sidebar-footer { padding: 16px 20px; border-top: 1px solid #2d3447; }
+        .sidebar-footer a {
+            color: #8896b3;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .sidebar-footer a:hover { color: #e74c3c; }
+
+        /* ── MAIN ── */
+        .main-content { margin-left: 220px; padding: 28px 32px; }
+
+        .page-header { margin-bottom: 24px; }
+        .page-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1f2e;
+            margin: 0;
+        }
+        .page-header p {
+            color: #6c757d;
+            margin: 2px 0 0;
+            font-size: 0.9rem;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            margin-bottom: 24px;
+        }
+        .card-header-custom {
+            background: #1a1f2e;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .card-body { padding: 24px; }
+
+        /* ── AVATAR ── */
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #4f8ef7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        /* ── BADGES ── */
+        .badge-rol {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 6px;
+        }
+        .badge-admin { background: #fde8e8; color: #c0392b; }
+        .badge-coach { background: #e8f0fe; color: #2563eb; }
+        .badge-user  { background: #e8f5e9; color: #27ae60; }
+
+        /* ── INFO ITEMS ── */
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-icon { font-size: 1.1rem; margin-top: 2px; }
+        .info-label {
+            font-size: 0.75rem;
+            color: #8896b3;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .info-value {
+            font-size: 0.9rem;
+            color: #1a1f2e;
+            font-weight: 500;
+        }
+
+        /* ── FORMULARIO ── */
+        .form-label {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 4px;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1.5px solid #dee2e6;
+            font-size: 0.88rem;
+        }
+        .form-control:focus {
+            border-color: #4f8ef7;
+            box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+        }
+        .form-control.is-invalid { border-color: #e74c3c; }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.78rem;
+            margin-top: 3px;
+            display: none;
+        }
+
+        /* ── BOTONES ── */
+        .btn-save {
+            background: #27ae60;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 9px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-save:hover { background: #219a52; }
+
+        .btn-edit-perfil {
+            background: #4f8ef7;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 9px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-edit-perfil:hover { background: #2563eb; }
+
+        .btn-cancel {
+            background: #f1f3f4;
+            border: none;
+            border-radius: 8px;
+            color: #4a5568;
+            padding: 9px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-cancel:hover { background: #e2e8f0; }
+
+        /* ── TOAST ── */
+        .toast-container {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 9999;
+        }
+        .toast-msg {
+            background: #1a1f2e;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+            margin-bottom: 8px;
+        }
+        .toast-msg.success { border-left: 4px solid #27ae60; }
+        .toast-msg.error   { border-left: 4px solid #e74c3c; }
+        @keyframes slideIn {
+            from { transform: translateX(40px); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
+        }
+
+        .campo-bloqueado {
+            background: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+    <div class="sidebar-brand">🏋 Sport<span>Club</span></div>
+    <div class="sidebar-user">
+        <p class="user-name" id="sidebarNombre">Cargando...</p>
+        <span class="user-role" id="sidebarRol">—</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="dashboard_usuario.html" id="linkDashboard">🏠 Dashboard</a>
+        <a href="usuarios.html" id="linkUsuarios" style="display:none;">👥 Usuarios</a>
+        <a href="perfil.html" class="active">👤 Perfil</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+    </div>
+</aside>
+
+<!-- ═══════════ CONTENIDO ═══════════ -->
+<main class="main-content">
+
+    <div class="page-header">
+        <h1>👤 Mi Perfil</h1>
+        <p>Gestiona tu información personal y preferencias de cuenta</p>
+    </div>
+
+    <div class="row">
+
+        <!-- Columna izquierda: info visual -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="avatar-circle mx-auto" id="avatarCircle">?</div>
+                    <h5 class="mb-0" id="cardNombre">—</h5>
+                    <small class="text-muted">Usuario del Sistema</small>
+                    <div id="cardBadge"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="info-item px-3">
+                        <span class="info-icon">✉️</span>
+                        <div>
+                            <div class="info-label">Email</div>
+                            <div class="info-value" id="infoEmail">—</div>
+                        </div>
+                    </div>
+                    <div class="info-item px-3">
+                        <span class="info-icon">🎂</span>
+                        <div>
+                            <div class="info-label">Fecha de Nacimiento</div>
+                            <div class="info-value" id="infoFecha">—</div>
+                        </div>
+                    </div>
+                    <div class="info-item px-3">
+                        <span class="info-icon">🛡️</span>
+                        <div>
+                            <div class="info-label">Rol</div>
+                            <div class="info-value" id="infoRol">—</div>
+                        </div>
+                    </div>
+                    <div class="info-item px-3">
+                        <span class="info-icon">🕐</span>
+                        <div>
+                            <div class="info-label">Fecha de Registro</div>
+                            <div class="info-value" id="infoRegistro">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna derecha: formularios -->
+        <div class="col-md-8">
+
+            <!-- ── Datos personales ── -->
+            <div class="card">
+                <div class="card-header-custom">
+                    📋 Información Personal
+                    <button class="btn-edit-perfil float-end" onclick="activarEdicion()" id="btnEditar">
+                        ✏️ Editar Perfil
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre Completo *</label>
+                            <input type="text" id="nombre" class="form-control" disabled>
+                            <span class="error-msg" id="err-nombre"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control campo-bloqueado" disabled readonly>
+                            <small class="text-muted">El email no se puede modificar</small>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" id="fecha" class="form-control" disabled>
+                            <span class="error-msg" id="err-fecha"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Rol</label>
+                            <input type="text" id="rol" class="form-control campo-bloqueado" disabled readonly>
+                            <small class="text-muted">El rol no se puede modificar</small>
+                        </div>
+
+<div class="col-12" style="display:none;">
+    <textarea id="metadata"></textarea>
+</div>
+
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4" id="botonesEdicion" style="display:none !important;">
+                        <button class="btn-save" onclick="guardarPerfil()">✅ Guardar Cambios</button>
+                        <button class="btn-cancel" onclick="cancelarEdicion()">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ── Cambiar contraseña ── -->
+            <div class="card">
+                <div class="card-header-custom">🔒 Cambiar Contraseña</div>
+                <div class="card-body">
+                    <div class="row g-3">
+
+                        <div class="col-md-12">
+                            <label class="form-label">Contraseña Actual *</label>
+                            <input type="password" id="passActual" class="form-control"
+                                placeholder="Ingresa tu contraseña actual">
+                            <span class="error-msg" id="err-passActual"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Nueva Contraseña *</label>
+                            <input type="password" id="passNueva" class="form-control"
+                                placeholder="Mínimo 8 caracteres">
+                            <span class="error-msg" id="err-passNueva"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Confirmar Nueva Contraseña *</label>
+                            <input type="password" id="passConfirmar" class="form-control"
+                                placeholder="Repite tu nueva contraseña">
+                            <span class="error-msg" id="err-passConfirmar"></span>
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted mt-2 d-block">
+                        ℹ️ La contraseña debe tener al menos 8 caracteres, incluir números y letras.
+                    </small>
+
+                    <div class="mt-3">
+                        <button class="btn-save" onclick="cambiarPassword()">
+                            🔐 Actualizar Contraseña
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+
+const API = "https://frontend-backend-clubdeportivo.onrender.com";
+let usuarioActual = null;
+
+// ── Inicialización ─────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+    cargarPerfil();
+});
+
+// ── Cargar perfil desde API ────────────────────────────────
+async function cargarPerfil() {
+    const token = localStorage.getItem("token");
+
+    try {
+        const res = await fetch(`${API}/api/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (res.status === 401) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        const resultado = await res.json();
+        usuarioActual = resultado.data || resultado;
+
+        renderizarPerfil(usuarioActual);
+
+    } catch (err) {
+        console.error("Error:", err);
+        mostrarToast("Error al cargar el perfil", "error");
+    }
+}
+
+// ── Renderizar datos en pantalla ───────────────────────────
+function renderizarPerfil(u) {
+
+    const nombre = capitalizarNombre(u.full_name || "");
+
+    // Sidebar
+    document.getElementById("sidebarNombre").textContent = nombre;
+    document.getElementById("sidebarRol").textContent    = u.role || "";
+
+    // Mostrar usuarios en sidebar solo si es admin
+    if (u.role === "admin") {
+        document.getElementById("linkUsuarios").style.display = "flex";
+        document.getElementById("linkDashboard").href = "dashboard_admin.html";
+    } else if (u.role === "coach") {
+        document.getElementById("linkDashboard").href = "dashboard_coach.html";
+    }
+
+    // Avatar con inicial
+    document.getElementById("avatarCircle").textContent =
+        nombre.charAt(0).toUpperCase();
+
+    // Card izquierda
+    document.getElementById("cardNombre").textContent = nombre;
+    document.getElementById("cardBadge").innerHTML    = badgeRol(u.role);
+    document.getElementById("infoEmail").textContent  = (u.email || "").toLowerCase();
+    document.getElementById("infoFecha").textContent  = formatearFecha(u.fecha_nacimiento || u.birth_date);
+    document.getElementById("infoRol").textContent    = u.role || "—";
+    document.getElementById("infoRegistro").textContent = formatearFecha(u.createdAt);
+
+    // Formulario
+    document.getElementById("nombre").value = u.full_name || "";
+    document.getElementById("email").value  = (u.email || "").toLowerCase();
+    document.getElementById("fecha").value  = u.fecha_nacimiento || u.birth_date || "";
+    document.getElementById("rol").value    = u.role || "";
+
+    // Metadata
+    const meta = u.otros || u.metadata;
+    if (meta) {
+        document.getElementById("metadata").value =
+            typeof meta === "object" ? JSON.stringify(meta, null, 2) : meta;
+    }
+}
+
+// ── Activar edición ────────────────────────────────────────
+function activarEdicion() {
+    document.getElementById("nombre").disabled   = false;
+    document.getElementById("fecha").disabled    = false;
+    document.getElementById("metadata").disabled = false;
+    document.getElementById("botonesEdicion").style.display = "flex";
+    document.getElementById("btnEditar").style.display      = "none";
+    document.getElementById("nombre").focus();
+}
+
+// ── Cancelar edición ───────────────────────────────────────
+function cancelarEdicion() {
+    renderizarPerfil(usuarioActual);
+    document.getElementById("nombre").disabled   = true;
+    document.getElementById("fecha").disabled    = true;
+    document.getElementById("metadata").disabled = true;
+    document.getElementById("botonesEdicion").style.display = "none";
+    document.getElementById("btnEditar").style.display      = "inline-block";
+    limpiarErroresPerfil();
+}
+
+// ── Guardar perfil ─────────────────────────────────────────
+async function guardarPerfil() {
+
+    limpiarErroresPerfil();
+    let valido = true;
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const fecha  = document.getElementById("fecha").value;
+
+    if (!nombre) {
+        mostrarError("nombre", "err-nombre", "El nombre es obligatorio");
+        valido = false;
+    }
+
+    if (!valido) return;
+
+    const token = localStorage.getItem("token");
+
+    const body = {
+        full_name: nombre,
+        birth_date: fecha || undefined
+    };
+
+    // Metadata opcional
+    const metaRaw = document.getElementById("metadata").value.trim();
+    if (metaRaw) {
+        try {
+            body.metadata = JSON.parse(metaRaw);
+        } catch {
+            body.metadata = { otros: metaRaw };
+        }
+    }
+
+    try {
+        const res = await fetch(`${API}/api/auth/me`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        const resultado = await res.json();
+
+        if (res.ok) {
+            usuarioActual = resultado.data || resultado;
+            renderizarPerfil(usuarioActual);
+
+            document.getElementById("nombre").disabled   = true;
+            document.getElementById("fecha").disabled    = true;
+            document.getElementById("metadata").disabled = true;
+            document.getElementById("botonesEdicion").style.display = "none";
+            document.getElementById("btnEditar").style.display      = "inline-block";
+
+            mostrarToast("✅ Perfil actualizado correctamente", "success");
+
+        } else {
+            mostrarToast(resultado.message || "Error al actualizar perfil", "error");
+        }
+
+    } catch (err) {
+        console.error("Error:", err);
+        mostrarToast("Error de conexión con el servidor", "error");
+    }
+}
+
+// ── Cambiar contraseña ─────────────────────────────────────
+async function cambiarPassword() {
+
+    limpiarErroresPassword();
+    let valido = true;
+
+    const actual    = document.getElementById("passActual").value;
+    const nueva     = document.getElementById("passNueva").value;
+    const confirmar = document.getElementById("passConfirmar").value;
+
+    if (!actual) {
+        mostrarError("passActual", "err-passActual", "Ingresa tu contraseña actual");
+        valido = false;
+    }
+
+    if (!nueva || nueva.length < 8) {
+        mostrarError("passNueva", "err-passNueva", "Contraseña mínima 8 caracteres");
+        valido = false;
+    }
+
+    if (!confirmar || nueva !== confirmar) {
+        mostrarError("passConfirmar", "err-passConfirmar", "Las contraseñas no coinciden");
+        valido = false;
+    }
+
+    if (!valido) return;
+
+    const token = localStorage.getItem("token");
+
+    try {
+        const res = await fetch(`${API}/api/auth/me/password`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                current_password: actual,
+                new_password:     nueva
+            })
+        });
+
+        const resultado = await res.json();
+
+        if (res.ok) {
+            document.getElementById("passActual").value    = "";
+            document.getElementById("passNueva").value     = "";
+            document.getElementById("passConfirmar").value = "";
+            mostrarToast("✅ Contraseña actualizada correctamente", "success");
+        } else {
+            mostrarToast(resultado.message || "Error al cambiar contraseña", "error");
+        }
+
+    } catch (err) {
+        console.error("Error:", err);
+        mostrarToast("Error de conexión con el servidor", "error");
+    }
+}
+
+// ── Cerrar sesión ──────────────────────────────────────────
+function cerrarSesion() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+}
+
+// ══ VALIDACIONES ══════════════════════════════════════════
+
+function mostrarError(inputId, errorId, texto) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (input) input.classList.add("is-invalid");
+    if (error) { error.textContent = texto; error.style.display = "block"; }
+}
+
+function limpiarErroresPerfil() {
+    ["nombre", "fecha"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("is-invalid");
+    });
+    ["err-nombre", "err-fecha"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+    });
+}
+
+function limpiarErroresPassword() {
+    ["passActual", "passNueva", "passConfirmar"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("is-invalid");
+    });
+    ["err-passActual", "err-passNueva", "err-passConfirmar"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+    });
+}
+
+// ══ HELPERS ═══════════════════════════════════════════════
+
+function badgeRol(role) {
+    const clases = { admin: "badge-admin", coach: "badge-coach", user: "badge-user" };
+    const clase = clases[role] || "badge-user";
+    return `<span class="badge-rol ${clase}">${role || "user"}</span>`;
+}
+
+function formatearFecha(fecha) {
+    if (!fecha) return "—";
+    const d = new Date(fecha);
+    if (isNaN(d)) return "—";
+    const dia  = String(d.getDate()).padStart(2, "0");
+    const mes  = String(d.getMonth() + 1).padStart(2, "0");
+    const anio = d.getFullYear();
+    return `${dia}/${mes}/${anio}`;
+}
+
+function capitalizarNombre(nombre) {
+    if (!nombre) return "";
+    return nombre.toLowerCase().split(" ")
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(" ");
+}
+
+function mostrarToast(mensaje, tipo = "success") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast-msg ${tipo}`;
+    toast.textContent = mensaje;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+</script>
+</body>
+</html>

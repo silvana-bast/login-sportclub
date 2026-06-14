@@ -148,3 +148,10 @@ button:hover{
 
     color: #d4a017;
 }
+.error-msg {
+    color: #e74c3c;
+    font-size: 0.78rem;
+    margin-top: 4px;
+    display: block;
+    min-height: 16px;
+}

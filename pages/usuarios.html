@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios - SportClub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: 220px;
+            min-height: 100vh;
+            background: #1a1f2e;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+        .sidebar-brand {
+            padding: 20px 20px 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 1px solid #2d3447;
+        }
+        .sidebar-brand span { color: #4f8ef7; }
+        .sidebar-user {
+            padding: 16px 20px;
+            border-bottom: 1px solid #2d3447;
+        }
+        .sidebar-user .user-name {
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .sidebar-user .user-role {
+            color: #8896b3;
+            font-size: 0.75rem;
+        }
+        .sidebar-nav { flex: 1; padding: 12px 0; }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: #8896b3;
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .sidebar-nav a:hover { background: #2d3447; color: #fff; }
+        .sidebar-nav a.active {
+            background: #2d3447;
+            color: #4f8ef7;
+            border-left: 3px solid #4f8ef7;
+        }
+        .sidebar-footer { padding: 16px 20px; border-top: 1px solid #2d3447; }
+        .sidebar-footer a {
+            color: #8896b3;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .sidebar-footer a:hover { color: #e74c3c; }
+
+        /* ── MAIN ── */
+        .main-content { margin-left: 220px; padding: 28px 32px; }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .page-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1f2e;
+            margin: 0;
+        }
+        .page-header p {
+            color: #6c757d;
+            margin: 2px 0 0;
+            font-size: 0.9rem;
+        }
+
+        /* ── TABLA ── */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+        .card-header {
+            background: #fff;
+            border-bottom: 1px solid #e9ecef;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 16px 20px;
+            font-weight: 600;
+            color: #1a1f2e;
+        }
+        .table th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8896b3;
+            font-weight: 600;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .table td {
+            vertical-align: middle;
+            font-size: 0.88rem;
+            color: #2d3447;
+        }
+        .table tbody tr:hover { background-color: #f8f9ff; }
+
+        /* ── BADGES ── */
+        .badge-rol {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-admin { background: #fde8e8; color: #c0392b; }
+        .badge-coach { background: #e8f0fe; color: #2563eb; }
+        .badge-user  { background: #e8f5e9; color: #27ae60; }
+
+        /* ── FORMULARIO ── */
+        .form-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            margin-top: 24px;
+        }
+        .form-card .card-header {
+            background: #1a1f2e;
+            color: #fff;
+            border-radius: 12px 12px 0 0 !important;
+        }
+        .form-label {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 4px;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1.5px solid #dee2e6;
+            font-size: 0.88rem;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #4f8ef7;
+            box-shadow: 0 0 0 3px rgba(79,142,247,0.12);
+        }
+        .form-control.is-invalid { border-color: #e74c3c; }
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.78rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* ── BOTONES ── */
+        .btn-primary-custom {
+            background: #4f8ef7;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary-custom:hover { background: #2563eb; }
+        .btn-edit {
+            background: #fff8e1;
+            border: 1px solid #f59e0b;
+            color: #b45309;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-edit:hover { background: #fef3c7; }
+        .btn-delete {
+            background: #fef2f2;
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover { background: #fee2e2; }
+        .btn-cancel {
+            background: #f1f3f4;
+            border: none;
+            border-radius: 8px;
+            color: #4a5568;
+            padding: 8px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-cancel:hover { background: #e2e8f0; }
+        .btn-save {
+            background: #27ae60;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px 18px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-save:hover { background: #219a52; }
+
+        /* ── TOAST ── */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .toast-msg {
+            background: #1a1f2e;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+            margin-bottom: 8px;
+        }
+        .toast-msg.success { border-left: 4px solid #27ae60; }
+        .toast-msg.error   { border-left: 4px solid #e74c3c; }
+        @keyframes slideIn {
+            from { transform: translateX(40px); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
+        }
+
+        .loading-row td {
+            text-align: center;
+            color: #8896b3;
+            padding: 40px !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-brand">🏋 Sport<span>Club</span></div>
+    <div class="sidebar-user">
+        <p class="user-name" id="sidebarNombre">Cargando...</p>
+        <span class="user-role" id="sidebarRol">—</span>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="dashboard_admin.html">
+    Dashboard
+</a>
+        <a href="usuarios.html" class="active">👥 Usuarios</a>
+        <a href="perfil.html">👤 Perfil</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+    </div>
+</aside>
+
+<!-- CONTENIDO -->
+<main class="main-content">
+
+    <div class="page-header">
+        <div>
+            <h1>👥 Gestión de Usuarios</h1>
+            <p>Administra los usuarios del sistema</p>
+        </div>
+        <button class="btn-primary-custom" onclick="mostrarFormularioNuevo()">
+            ➕ Nuevo Usuario
+        </button>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card">
+        <div class="card-header">Lista de Usuarios</div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Fecha Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaUsuarios">
+                    <tr class="loading-row">
+                        <td colspan="6">⏳ Cargando usuarios...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Formulario crear / editar -->
+    <div class="form-card card" id="formularioUsuario" style="display:none;">
+        <div class="card-header" id="formTitulo">➕ Nuevo Usuario</div>
+        <div class="card-body p-4">
+
+            <input type="hidden" id="usuarioIdEditar">
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre Completo *</label>
+                    <input type="text" id="nombre" class="form-control" placeholder="Ej: Juan Pérez">
+                    <span class="error-msg" id="err-nombre"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email *</label>
+                    <input type="email" id="email" class="form-control" placeholder="Ej: juan@demo.cl">
+                    <span class="error-msg" id="err-email"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Rol *</label>
+                    <select id="rol" class="form-select">
+                        <option value="user">User</option>
+                        <option value="coach">Coach</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="col-md-6" id="campoPassword">
+                    <label class="form-label">Contraseña *</label>
+                    <input type="password" id="password" class="form-control" placeholder="Mínimo 8 caracteres">
+                    <span class="error-msg" id="err-password"></span>
+                </div>
+                <div class="col-md-6" id="campoConfirmar">
+                    <label class="form-label">Confirmar Contraseña *</label>
+                    <input type="password" id="confirmarPassword" class="form-control" placeholder="Repite la contraseña">
+                    <span class="error-msg" id="err-confirmar"></span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn-save" id="btnGuardar" onclick="guardarUsuario()">
+                    💾 Guardar Usuario
+                </button>
+                <button class="btn-cancel" onclick="cancelarFormulario()">
+                    Cancelar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- JAVASCRIPT -->
+<script>
+
+const API = "https://frontend-backend-clubdeportivo.onrender.com";
+let modoEdicion = false;
+
+// ── Inicialización
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+    cargarInfoSidebar();
+    cargarUsuarios();
+});
+
+// ── Sidebar
+async function cargarInfoSidebar() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`${API}/api/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const resultado = await res.json();
+        const usuario = resultado.data || resultado;
+        document.getElementById("sidebarNombre").textContent = usuario.full_name || "Usuario";
+        document.getElementById("sidebarRol").textContent = usuario.role || "";
+    } catch (err) {
+        console.error("Error cargando sidebar:", err);
+    }
+}
+
+// ── Listar usuarios
+async function cargarUsuarios() {
+    const token = localStorage.getItem("token");
+    const tabla = document.getElementById("tablaUsuarios");
+
+    tabla.innerHTML = `<tr class="loading-row"><td colspan="6">⏳ Cargando usuarios...</td></tr>`;
+
+    try {
+        const res = await fetch(`${API}/api/users`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (res.status === 401) {
+            mostrarToast("Sesión expirada. Inicia sesión nuevamente.", "error");
+            setTimeout(() => window.location.href = "login.html", 2000);
+            return;
+        }
+
+        const resultado = await res.json();
+        const usuarios = resultado.data || resultado.users || resultado;
+
+        if (!Array.isArray(usuarios) || usuarios.length === 0) {
+            tabla.innerHTML = `<tr class="loading-row"><td colspan="6">No hay usuarios registrados.</td></tr>`;
+            return;
+        }
+
+        tabla.innerHTML = "";
+
+        usuarios.forEach(usuario => {
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td class="ps-4 text-muted">#${usuario.id}</td>
+                <td><strong>${capitalizarNombre(usuario.full_name)}</strong></td>
+                <td>${(usuario.email || "").toLowerCase()}</td>
+                <td>${badgeRol(usuario.role)}</td>
+                <td>${formatearFecha(usuario.createdAt)}</td>
+                <td>
+                    <button class="btn-edit me-1" onclick="editarUsuario(${usuario.id})">✏️ Editar</button>
+                    <button class="btn-delete" onclick="eliminarUsuario(${usuario.id}, '${usuario.full_name}')">🗑️ Eliminar</button>
+                </td>
+            `;
+            tabla.appendChild(fila);
+        });
+
+    } catch (err) {
+        console.error("Error:", err);
+        tabla.innerHTML = `<tr class="loading-row"><td colspan="6">❌ Error al cargar usuarios.</td></tr>`;
+    }
+}
+
+// ── Mostrar formulario NUEVO
+function mostrarFormularioNuevo() {
+    modoEdicion = false;
+    document.getElementById("usuarioIdEditar").value = "";
+    document.getElementById("nombre").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("rol").value = "user";
+    document.getElementById("password").value = "";
+    document.getElementById("confirmarPassword").value = "";
+    document.getElementById("formTitulo").textContent = "➕ Nuevo Usuario";
+    document.getElementById("btnGuardar").textContent = "💾 Guardar Usuario";
+    document.getElementById("campoPassword").style.display = "block";
+    document.getElementById("campoConfirmar").style.display = "block";
+    limpiarErrores();
+    document.getElementById("formularioUsuario").style.display = "block";
+    document.getElementById("formularioUsuario").scrollIntoView({ behavior: "smooth" });
+}
+
+// ── Cargar datos para EDITAR
+async function editarUsuario(id) {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`${API}/api/users/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const resultado = await res.json();
+        const usuario = resultado.data || resultado;
+
+        modoEdicion = true;
+        document.getElementById("usuarioIdEditar").value = id;
+        document.getElementById("nombre").value = usuario.full_name || "";
+        document.getElementById("email").value = usuario.email || "";
+        document.getElementById("rol").value = usuario.role || "user";
+        document.getElementById("password").value = "";
+        document.getElementById("confirmarPassword").value = "";
+        document.getElementById("formTitulo").textContent = `✏️ Editar Usuario — ${usuario.full_name}`;
+        document.getElementById("btnGuardar").textContent = "💾 Guardar Cambios";
+        document.getElementById("campoPassword").style.display = "none";
+        document.getElementById("campoConfirmar").style.display = "none";
+        limpiarErrores();
+        document.getElementById("formularioUsuario").style.display = "block";
+        document.getElementById("formularioUsuario").scrollIntoView({ behavior: "smooth" });
+
+    } catch (err) {
+        console.error("Error:", err);
+        mostrarToast("Error al cargar datos del usuario", "error");
+    }
+}
+
+// ── Guardar (crear o editar)
+async function guardarUsuario() {
+    if (!validarFormulario()) return;
+
+    const token = localStorage.getItem("token");
+    const id = document.getElementById("usuarioIdEditar").value;
+
+    const body = {
+        full_name: document.getElementById("nombre").value.trim(),
+        email:     document.getElementById("email").value.trim(),
+        role:      document.getElementById("rol").value
+    };
+
+    if (!modoEdicion) {
+        body.password = document.getElementById("password").value;
+    }
+
+    const url    = modoEdicion ? `${API}/api/users/${id}` : `${API}/api/users`;
+    const metodo = modoEdicion ? "PUT" : "POST";
+
+    try {
+        const res = await fetch(url, {
+            method: metodo,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        const resultado = await res.json();
+
+        if (res.ok) {
+            mostrarToast(
+                modoEdicion ? "✅ Usuario actualizado correctamente" : "✅ Usuario creado correctamente",
+                "success"
+            );
+            cancelarFormulario();
+            cargarUsuarios();
+        } else {
+            mostrarToast(resultado.message || "Error al guardar", "error");
+        }
+
+    } catch (err) {
+        console.error("Error:", err);
+        mostrarToast("Error de conexión con el servidor", "error");
+    }
+}
+
+// ── Eliminar usuario
+async function eliminarUsuario(id, nombre) {
+    const confirmar = confirm(`¿Deseas eliminar al usuario "${nombre}"?\nEsta acción no se puede deshacer.`);
+    if (!confirmar) return;
+
+    const token = localStorage.getItem("token");
+
+    try {
+        const res = await fetch(`${API}/api/users/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (res.ok) {
+            mostrarToast("✅ Usuario eliminado correctamente", "success");
+            cargarUsuarios();
+        } else {
+            const resultado = await res.json();
+            mostrarToast(resultado.message || "Error al eliminar", "error");
+        }
+
+    } catch (err) {
+        console.error("Error:", err);
+        mostrarToast("Error de conexión", "error");
+    }
+}
+
+// ── Cancelar formulario
+function cancelarFormulario() {
+    document.getElementById("formularioUsuario").style.display = "none";
+    limpiarErrores();
+    modoEdicion = false;
+}
+
+// ── Cerrar sesión
+function cerrarSesion() {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
+// ══ VALIDACIONES ══════════════════════════════════════
+
+function validarFormulario() {
+    limpiarErrores();
+    let valido = true;
+
+    const nombre    = document.getElementById("nombre").value.trim();
+    const email     = document.getElementById("email").value.trim();
+    const password  = document.getElementById("password").value;
+    const confirmar = document.getElementById("confirmarPassword").value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nombre) {
+        mostrarError("nombre", "err-nombre", "El nombre es obligatorio");
+        valido = false;
+    }
+
+    if (!email) {
+        mostrarError("email", "err-email", "El email es obligatorio");
+        valido = false;
+    } else if (!emailRegex.test(email)) {
+        mostrarError("email", "err-email", "Formato de email inválido");
+        valido = false;
+    }
+
+    if (!modoEdicion) {
+        if (!password || password.length < 8) {
+            mostrarError("password", "err-password", "Contraseña mínima 8 caracteres");
+            valido = false;
+        }
+        if (!confirmar || password !== confirmar) {
+            mostrarError("confirmarPassword", "err-confirmar", "Las contraseñas no coinciden");
+            valido = false;
+        }
+    }
+
+    return valido;
+}
+
+function mostrarError(inputId, errorId, mensaje) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (input) input.classList.add("is-invalid");
+    if (error) { error.textContent = mensaje; error.style.display = "block"; }
+}
+
+function limpiarErrores() {
+    ["nombre", "email", "password", "confirmarPassword"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove("is-invalid");
+    });
+    ["err-nombre", "err-email", "err-password", "err-confirmar"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = "none";
+    });
+}
+
+// ══ HELPERS ═══════════════════════════════════════════
+
+function badgeRol(role) {
+    const clases = { admin: "badge-admin", coach: "badge-coach", user: "badge-user" };
+    const clase = clases[role] || "badge-user";
+    return `<span class="badge-rol ${clase}">${role || "user"}</span>`;
+}
+
+function formatearFecha(fecha) {
+    if (!fecha) return "—";
+    const d = new Date(fecha);
+    if (isNaN(d)) return "—";
+    const dia  = String(d.getDate()).padStart(2, "0");
+    const mes  = String(d.getMonth() + 1).padStart(2, "0");
+    const anio = d.getFullYear();
+    return `${dia}/${mes}/${anio}`;
+}
+
+function capitalizarNombre(nombre) {
+    if (!nombre) return "";
+    return nombre.toLowerCase().split(" ").map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(" ");
+}
+
+function mostrarToast(mensaje, tipo = "success") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast-msg ${tipo}`;
+    toast.textContent = mensaje;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+</script>
+</body>
+</html>

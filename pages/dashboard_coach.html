@@ -1,149 +1,174 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Coach</title>
-
     <link rel="stylesheet" href="../assets/css/style_dashboard.css">
 </head>
-
 <body>
 
 <header>
-
     <img src="../assets/img/logo.png" alt="Logo SportClub">
-
     <div>
-        <a href="#">Mi Perfil</a>
-        <a href="login.html">Cerrar Sesión</a>
+        <span id="headerNombre">Coach</span>
+        <a href="perfil.html">Mi Perfil</a>
+        <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
     </div>
-
 </header>
 
 <nav>
-
-    <a href="#">Inicio</a>
-    <a href="#">Alumnos</a>
-    <a href="#">Clases</a>
-    <a href="#">Horarios</a>
-
+    <a href="dashboard_coach.html" class="activo">Inicio</a>
+    <a href="perfil.html">Mi Perfil</a>
 </nav>
 
 <main>
 
     <section>
-
         <h1>Dashboard Coach</h1>
+        <p id="bienvenida">Bienvenido Coach. Administra tus clases y alumnos.</p>
 
-        <p>
-            Bienvenido Coach Carlos.
-            Administra tus clases y alumnos.
-        </p>
-<div class="resumen-container">
-
-    <div class="resumen-card">
-        <h2>25</h2>
-        <p>Alumnos</p>
-    </div>
-
-    <div class="resumen-card">
-        <h2>8</h2>
-        <p>Clases Activas</p>
-    </div>
-
-    <div class="resumen-card">
-        <h2>30</h2>
-        <p>Horas Semanales</p>
-    </div>
-
-</div>
+        <div class="resumen-container">
+            <div class="resumen-card">
+                <h2 id="totalAlumnos">—</h2>
+                <p>Alumnos</p>
+            </div>
+            <div class="resumen-card">
+                <h2>8</h2>
+                <p>Clases Activas</p>
+            </div>
+            <div class="resumen-card">
+                <h2>30</h2>
+                <p>Horas Semanales</p>
+            </div>
+        </div>
     </section>
 
-<section class="alumnos">
-
-    <h2>Mis Alumnos</h2>
-
-    <div class="alumnos-container">
-
-        <div class="alumno-card">
-            <h3>Ana Torres</h3>
-            <p>ana@email.com</p>
-            <p>Funcional</p>
+    <section class="alumnos">
+        <h2>Mis Alumnos</h2>
+        <div class="alumnos-container" id="listaAlumnos">
+            <p>Cargando...</p>
         </div>
+    </section>
 
-        <div class="alumno-card">
-            <h3>Carlos Díaz</h3>
-            <p>carlos@email.com</p>
-            <p>Cross Training</p>
+    <section class="clases">
+        <h2>Clases Asignadas</h2>
+        <div class="clases-container">
+            <div class="clase-card">
+                <h3>Funcional</h3>
+                <p>Lunes y Miércoles</p>
+                <p>18:00 hrs</p>
+            </div>
+            <div class="clase-card">
+                <h3>Cross Training</h3>
+                <p>Martes y Jueves</p>
+                <p>19:00 hrs</p>
+            </div>
+            <div class="clase-card">
+                <h3>Yoga</h3>
+                <p>Viernes</p>
+                <p>17:00 hrs</p>
+            </div>
         </div>
+    </section>
 
-        <div class="alumno-card">
-            <h3>María Soto</h3>
-            <p>maria@email.com</p>
-            <p>Yoga</p>
+    <section class="horarios">
+        <h2>Horarios de Trabajo</h2>
+        <div class="horarios-container">
+            <div class="horario-card">Lunes - 08:00 a 14:00</div>
+            <div class="horario-card">Martes - 09:00 a 15:00</div>
+            <div class="horario-card">Miércoles - 08:00 a 14:00</div>
+            <div class="horario-card">Jueves - 09:00 a 15:00</div>
+            <div class="horario-card">Viernes - 10:00 a 16:00</div>
         </div>
-
-        <div class="alumno-card">
-            <h3>Pedro Rojas</h3>
-            <p>pedro@email.com</p>
-            <p>Spinning</p>
-        </div>
-
-        <div class="alumno-card">
-            <h3>Camila Flores</h3>
-            <p>camila@email.com</p>
-            <p>Funcional</p>
-        </div>
-
-<section class="clases">
-
-    <h2>Clases Asignadas</h2>
-
-    <div class="clases-container">
-
-        <div class="clase-card">
-            <h3>Funcional</h3>
-            <p>Lunes y Miércoles</p>
-            <p>18:00 hrs</p>
-        </div>
-
-        <div class="clase-card">
-            <h3>Cross Training</h3>
-            <p>Martes y Jueves</p>
-            <p>19:00 hrs</p>
-        </div>
-
-        <div class="clase-card">
-            <h3>Yoga</h3>
-            <p>Viernes</p>
-            <p>17:00 hrs</p>
-        </div>
-
-<section class="horarios">
-
-    <h2>Horarios de Trabajo</h2>
-
-    <div class="horarios-container">
-
-        <div class="horario-card">Lunes - 08:00 a 14:00</div>
-
-        <div class="horario-card">Martes - 09:00 a 15:00</div>
-
-        <div class="horario-card">Miércoles - 08:00 a 14:00</div>
-
-        <div class="horario-card">Jueves - 09:00 a 15:00</div>
-
-        <div class="horario-card">Viernes - 10:00 a 16:00</div>
-
-    </div>
-
-</section>
+    </section>
 
 </main>
 
+<script>
+
+const API = "https://frontend-backend-clubdeportivo.onrender.com";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+    verificarRol();
+    cargarAlumnos();
+});
+
+async function verificarRol() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`${API}/api/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const resultado = await res.json();
+        const usuario = resultado.data || resultado;
+
+        if (usuario.role !== "coach") {
+            window.location.href = "login.html";
+            return;
+        }
+
+        document.getElementById("headerNombre").textContent = usuario.full_name || "Coach";
+        document.getElementById("bienvenida").textContent =
+            `Bienvenido, ${usuario.full_name}. Administra tus clases y alumnos.`;
+
+    } catch (err) {
+        console.error(err);
+        window.location.href = "login.html";
+    }
+}
+
+async function cargarAlumnos() {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`${API}/api/users?role=user`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const resultado = await res.json();
+        const usuarios = resultado.data || resultado.users || resultado;
+        const alumnos = Array.isArray(usuarios) ? usuarios.filter(u => u.role === "user") : [];
+
+        document.getElementById("totalAlumnos").textContent = alumnos.length;
+
+        const lista = document.getElementById("listaAlumnos");
+        lista.innerHTML = "";
+
+        if (alumnos.length === 0) {
+            lista.innerHTML = "<p>No hay alumnos registrados.</p>";
+            return;
+        }
+
+        alumnos.slice(0, 6).forEach(u => {
+            lista.innerHTML += `
+                <div class="alumno-card">
+                    <h3>${capitalizarNombre(u.full_name)}</h3>
+                    <p>${(u.email || "").toLowerCase()}</p>
+                </div>
+            `;
+        });
+
+    } catch (err) {
+        console.error("Error:", err);
+    }
+}
+
+function cerrarSesion() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+}
+
+function capitalizarNombre(nombre) {
+    if (!nombre) return "";
+    return nombre.toLowerCase().split(" ")
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(" ");
+}
+
+</script>
 </body>
-
 </html>
-
