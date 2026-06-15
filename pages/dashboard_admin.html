@@ -8,22 +8,23 @@
 </head>
 <body>
 
-<header>
-    <img src="../assets/img/logo.png" alt="Logo SportClub">
-    <div>
-        <span id="headerNombre">Administrador</span>
-        <a href="perfil.html">Mi Perfil</a>
-        <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+<aside class="sidebar">
+    <div class="sidebar-brand">🏋 Sport<span>Club</span></div>
+    <div class="sidebar-user">
+        <p class="user-name" id="sidebarNombre">Cargando...</p>
+        <span class="user-role" id="sidebarRol">admin</span>
     </div>
-</header>
+    <nav class="sidebar-nav">
+        <a href="dashboard_admin.html" class="activo">🏠 Dashboard</a>
+        <a href="usuarios.html">👥 Usuarios</a>
+        <a href="perfil.html">👤 Perfil</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+    </div>
+</aside>
 
-<nav>
-    <a href="dashboard_admin.html" class="activo">Inicio</a>
-    <a href="usuarios.html">Usuarios</a>
-    <a href="perfil.html">Mi Perfil</a>
-</nav>
-
-<main>
+<main class="main-content">
 
     <section>
         <h1>Dashboard Administrador</h1>
@@ -100,7 +101,7 @@ async function verificarRol() {
             return;
         }
 
-        document.getElementById("headerNombre").textContent = usuario.full_name || "Administrador";
+        document.getElementById("sidebarNombre").textContent = usuario.full_name || "Administrador";
         document.getElementById("bienvenida").textContent =
             `Bienvenido, ${usuario.full_name}. Gestiona usuarios, coaches y reportes del sistema.`;
 
@@ -122,13 +123,11 @@ async function cargarDatos() {
         const users  = usuarios.filter(u => u.role === "user");
         const coaches = usuarios.filter(u => u.role === "coach");
 
-        // Contadores
         document.getElementById("totalUsuarios").textContent = users.length;
         document.getElementById("totalCoaches").textContent  = coaches.length;
         document.getElementById("reporteUsuarios").textContent = `Usuarios activos: ${users.length}`;
         document.getElementById("reporteCoaches").textContent  = `Coaches activos: ${coaches.length}`;
 
-        // Lista usuarios
         const listaU = document.getElementById("listaUsuarios");
         listaU.innerHTML = "";
         users.slice(0, 6).forEach(u => {
@@ -140,7 +139,6 @@ async function cargarDatos() {
             `;
         });
 
-        // Lista coaches
         const listaC = document.getElementById("listaCoaches");
         listaC.innerHTML = "";
         if (coaches.length === 0) {
