@@ -1,223 +1,247 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f4f1ff;
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f0f2f5;
 }
 
-/* HEADER */
+/* ══ SIDEBAR ══════════════════════════════════════════ */
 
-header{
-    background-color: white;
-
+.sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: #1a1f2e;
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.sidebar-brand {
+    padding: 20px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-bottom: 1px solid #2d3447;
+}
+
+.sidebar-brand span { color: #4f8ef7; }
+
+.sidebar-user {
+    padding: 16px 20px;
+    border-bottom: 1px solid #2d3447;
+}
+
+.sidebar-user .user-name {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.sidebar-user .user-role {
+    color: #8896b3;
+    font-size: 0.75rem;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 12px 0;
+}
+
+.sidebar-nav a {
+    display: flex;
     align-items: center;
-
-    padding: 15px 50px;
-
-    box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-}
-
-header img{
-    width: 180px;
-}
-
-header div a{
+    gap: 10px;
+    padding: 10px 20px;
+    color: #8896b3;
     text-decoration: none;
-    color: #2E1A47;
-    font-weight: bold;
-    margin-left: 20px;
+    font-size: 0.88rem;
+    transition: background 0.2s, color 0.2s;
 }
 
-/* MENÚ */
-
-nav{
-    background-color: #2E1A47;
-
-    display: flex;
-    justify-content: center;
-
-    gap: 40px;
-
-    padding: 15px;
+.sidebar-nav a:hover {
+    background: #2d3447;
+    color: #fff;
 }
 
-nav a{
+.sidebar-nav a.activo {
+    background: #2d3447;
+    color: #4f8ef7;
+    border-left: 3px solid #4f8ef7;
+}
+
+.sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #2d3447;
+}
+
+.sidebar-footer a {
+    color: #8896b3;
     text-decoration: none;
-    color: white;
-    font-weight: bold;
+    font-size: 0.85rem;
 }
 
-nav a:hover{
-    color: #F2B705;
+.sidebar-footer a:hover { color: #e74c3c; }
+
+/* ══ MAIN ═════════════════════════════════════════════ */
+
+.main-content {
+    margin-left: 220px;
+    padding: 36px 40px;
 }
 
-/* CONTENIDO */
-
-main{
-    padding: 40px;
+.main-content h1 {
+    color: #1a1f2e;
+    font-size: 1.7rem;
+    margin-bottom: 8px;
+    text-align: left;
 }
 
-h1{
-    text-align: center;
-    color: #2E1A47;
-    margin-bottom: 15px;
+.main-content > section > p {
+    color: #6c757d;
+    font-size: 1rem;
+    text-align: left;
+    margin-bottom: 0;
 }
 
-main p{
-    text-align: center;
-    font-size: 18px;
-}
+/* ══ CARDS RESUMEN ════════════════════════════════════ */
 
-.resumen-container{
+.resumen-container {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 40px;
+    gap: 24px;
+    margin-top: 28px;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
-.resumen-card{
-    background-color: white;
-    width: 220px;
-    padding: 30px;
+.resumen-card {
+    background: #fff;
+    width: 200px;
+    padding: 28px 20px;
     text-align: center;
-
-    border-radius: 15px;
-
+    border-radius: 14px;
     border-top: 5px solid #4CAF50;
-
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-.resumen-card h2{
+.resumen-card h2 {
     color: #4CAF50;
-    font-size: 40px;
-    margin-bottom: 10px;
+    font-size: 2.2rem;
+    margin-bottom: 8px;
 }
 
-.resumen-card p{
+.resumen-card p {
     color: #2E1A47;
-    font-weight: bold;
-}
-
-.alumnos{
-    padding: 60px 40px;
-}
-
-.alumnos h2{
+    font-weight: 600;
+    font-size: 0.9rem;
     text-align: center;
-    color: #2E1A47;
-    margin-bottom: 40px;
 }
 
-.alumnos-container{
+.admin-card  { border-top-color: #f44336; }
+.admin-card h2 { color: #f44336; }
+
+.usuario-card { border-top-color: #2196F3; }
+.usuario-card h2 { color: #2196F3; }
+
+/* ══ SECCIONES ════════════════════════════════════════ */
+
+.alumnos,
+.clases,
+.horarios {
+    padding: 40px 0;
+}
+
+.alumnos h2,
+.clases h2,
+.horarios h2 {
+    color: #1a1f2e;
+    margin-bottom: 24px;
+    font-size: 1.2rem;
+    text-align: left;
+}
+
+/* ══ ALUMNO CARDS ═════════════════════════════════════ */
+
+.alumnos-container {
     display: flex;
-    justify-content: center;
-    gap: 25px;
+    gap: 20px;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
-.alumno-card{
-    background-color: white;
+.alumno-card {
+    background: #fff;
+    width: 200px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.alumno-card h3 {
+    color: #1a1f2e;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.alumno-card p {
+    color: #6c757d;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* ══ CLASE CARDS ══════════════════════════════════════ */
+
+.clases-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.clase-card {
+    background: #fff;
     width: 220px;
-    padding: 20px;
-
-    border-radius: 15px;
-
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
-
+    padding: 22px;
     text-align: center;
-}
-
-.alumno-card h3{
-    color: #2E1A47;
-    margin-bottom: 10px;
-}
-
-.clases{
-    padding: 60px 40px;
-}
-
-.clases h2{
-    text-align: center;
-    color: #2E1A47;
-    margin-bottom: 40px;
-}
-
-.clases-container{
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-}
-
-.clase-card{
-    background-color: white;
-    width: 250px;
-    padding: 25px;
-
-    text-align: center;
-
-    border-radius: 15px;
-
+    border-radius: 12px;
     border-top: 5px solid #F2B705;
-
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
-.clase-card h3{
-    color: #2E1A47;
-    margin-bottom: 15px;
+.clase-card h3 {
+    color: #1a1f2e;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
 }
 
-.horarios{
-    padding: 60px 40px;
-}
-
-.horarios h2{
+.clase-card p {
+    color: #6c757d;
+    font-size: 0.82rem;
     text-align: center;
-    color: #2E1A47;
-    margin-bottom: 40px;
 }
 
-.horarios-container{
-    max-width: 800px;
-    margin: 0 auto;
+/* ══ HORARIO CARDS ════════════════════════════════════ */
+
+.horarios-container {
+    max-width: 700px;
 }
 
-.horario-card{
-    background-color: white;
-
-    padding: 20px;
-
-    margin-bottom: 15px;
-
+.horario-card {
+    background: #fff;
+    padding: 18px 20px;
+    margin-bottom: 12px;
     border-left: 6px solid #4CAF50;
-
     border-radius: 10px;
-
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
-
-    font-weight: bold;
-}
-.usuario-card{
-    border-top: 5px solid #2196F3;
-}
-
-.usuario-card h2{
-    color: #2196F3;
-}
-
-.admin-card{
-    border-top: 5px solid #f44336;
-}
-
-.admin-card h2{
-    color: #f44336;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    font-weight: 600;
+    color: #1a1f2e;
+    font-size: 0.9rem;
 }
