@@ -8,21 +8,22 @@
 </head>
 <body>
 
-<header>
-    <img src="../assets/img/logo.png" alt="Logo SportClub">
-    <div>
-        <span id="headerNombre">Usuario</span>
-        <a href="perfil.html">Mi Perfil</a>
-        <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+<aside class="sidebar">
+    <div class="sidebar-brand">🏋 Sport<span>Club</span></div>
+    <div class="sidebar-user">
+        <p class="user-name" id="sidebarNombre">Cargando...</p>
+        <span class="user-role">user</span>
     </div>
-</header>
+    <nav class="sidebar-nav">
+        <a href="dashboard_usuario.html" class="activo">🏠 Dashboard</a>
+        <a href="perfil.html">👤 Perfil</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+    </div>
+</aside>
 
-<nav>
-    <a href="dashboard_usuario.html" class="activo">Inicio</a>
-    <a href="perfil.html">Mi Perfil</a>
-</nav>
-
-<main>
+<main class="main-content">
 
     <section>
         <h1>Dashboard Usuario</h1>
@@ -89,8 +90,8 @@
     </section>
 
     <section class="horarios">
-        <h2>Mi Perfil</h2>
-        <div class="horarios-container" id="resumenPerfil">
+        <h2>Mi Resumen</h2>
+        <div class="horarios-container">
             <div class="horario-card" id="perfilNombre">Nombre: —</div>
             <div class="horario-card" id="perfilEmail">Correo: —</div>
             <div class="horario-card">Plan: Premium</div>
@@ -130,12 +131,11 @@ async function verificarRol() {
 
         const nombre = capitalizarNombre(usuario.full_name || "");
 
-        document.getElementById("headerNombre").textContent = nombre;
-        document.getElementById("bienvenida").textContent =
+        document.getElementById("sidebarNombre").textContent  = nombre;
+        document.getElementById("bienvenida").textContent     =
             `Bienvenido, ${nombre}. Gestiona tus reservas y actividades.`;
-        document.getElementById("perfilNombre").textContent =
-            `Nombre: ${nombre}`;
-        document.getElementById("perfilEmail").textContent =
+        document.getElementById("perfilNombre").textContent   = `Nombre: ${nombre}`;
+        document.getElementById("perfilEmail").textContent    =
             `Correo: ${(usuario.email || "").toLowerCase()}`;
 
     } catch (err) {
