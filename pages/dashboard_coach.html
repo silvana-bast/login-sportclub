@@ -8,21 +8,22 @@
 </head>
 <body>
 
-<header>
-    <img src="../assets/img/logo.png" alt="Logo SportClub">
-    <div>
-        <span id="headerNombre">Coach</span>
-        <a href="perfil.html">Mi Perfil</a>
-        <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+<aside class="sidebar">
+    <div class="sidebar-brand">🏋 Sport<span>Club</span></div>
+    <div class="sidebar-user">
+        <p class="user-name" id="sidebarNombre">Cargando...</p>
+        <span class="user-role">coach</span>
     </div>
-</header>
+    <nav class="sidebar-nav">
+        <a href="dashboard_coach.html" class="activo">🏠 Dashboard</a>
+        <a href="perfil.html">👤 Perfil</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="#" onclick="cerrarSesion()">🚪 Cerrar Sesión</a>
+    </div>
+</aside>
 
-<nav>
-    <a href="dashboard_coach.html" class="activo">Inicio</a>
-    <a href="perfil.html">Mi Perfil</a>
-</nav>
-
-<main>
+<main class="main-content">
 
     <section>
         <h1>Dashboard Coach</h1>
@@ -75,11 +76,11 @@
     <section class="horarios">
         <h2>Horarios de Trabajo</h2>
         <div class="horarios-container">
-            <div class="horario-card">Lunes - 08:00 a 14:00</div>
-            <div class="horario-card">Martes - 09:00 a 15:00</div>
-            <div class="horario-card">Miércoles - 08:00 a 14:00</div>
-            <div class="horario-card">Jueves - 09:00 a 15:00</div>
-            <div class="horario-card">Viernes - 10:00 a 16:00</div>
+            <div class="horario-card">Lunes — 08:00 a 14:00</div>
+            <div class="horario-card">Martes — 09:00 a 15:00</div>
+            <div class="horario-card">Miércoles — 08:00 a 14:00</div>
+            <div class="horario-card">Jueves — 09:00 a 15:00</div>
+            <div class="horario-card">Viernes — 10:00 a 16:00</div>
         </div>
     </section>
 
@@ -113,7 +114,7 @@ async function verificarRol() {
             return;
         }
 
-        document.getElementById("headerNombre").textContent = usuario.full_name || "Coach";
+        document.getElementById("sidebarNombre").textContent = usuario.full_name || "Coach";
         document.getElementById("bienvenida").textContent =
             `Bienvenido, ${usuario.full_name}. Administra tus clases y alumnos.`;
 
@@ -126,12 +127,14 @@ async function verificarRol() {
 async function cargarAlumnos() {
     const token = localStorage.getItem("token");
     try {
-        const res = await fetch(`${API}/api/users?role=user`, {
+        const res = await fetch(`${API}/api/users`, {
             headers: { Authorization: `Bearer ${token}` }
         });
         const resultado = await res.json();
         const usuarios = resultado.data || resultado.users || resultado;
-        const alumnos = Array.isArray(usuarios) ? usuarios.filter(u => u.role === "user") : [];
+        const alumnos = Array.isArray(usuarios)
+            ? usuarios.filter(u => u.role === "user")
+            : [];
 
         document.getElementById("totalAlumnos").textContent = alumnos.length;
 
